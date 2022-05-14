@@ -37,6 +37,11 @@ int main(int, char**){
     cout << endl << "As coordenadas utilizadas excedem as dimensoes da imagem!" << endl;
     return -1;
   } 
+
+  else if(p1.second > image.size().height || p2.second > image.size().height){
+    cout << endl << "As coordenadas utilizadas excedem as dimensoes da imagem!" << endl;
+    return -1;
+  } 
   cv::namedWindow("Original", cv::WINDOW_AUTOSIZE);
 
   cv::imshow("Original", image);  
