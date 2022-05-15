@@ -1,0 +1,5 @@
+3.2 - 1:
+
+Caso existam mais de 255 objetos na cena, o processo de rotulação estará comprometido devido ao uso do tipo de dado como uchar, esse tipo é um char sem sinal, que representa com 8 bits valores de 0 a 255. Como a rotulação usa a representação de cor(tons de cinza) como ferramenta para distinguir os objetos na cena, caso o número seja maior que 255 não se pode garantir a correta rotulação.
+Uma forma de resolver este problema é mudar o tipo de dado usado para representar a cor, se por exemplo utilizarmos um unsigned int de 32 bits que representa valores de 0 a 65.535, aumentamos significativamente a capacidade de rotular mais objetos na imagem.
+
