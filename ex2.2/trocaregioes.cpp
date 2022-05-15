@@ -4,13 +4,14 @@
 using namespace cv;
 using namespace std;
 
+//biel é uma imagem quadrada 256*256
 int main(int, char**){
   cv::Mat image;// quarter1, quarter2, quarter3, quarter4, aux;
-  cv::Mat quarter1(129,142, CV_8U);
-  cv::Mat quarter2(129,142, CV_8U);
-  cv::Mat quarter3(129,142, CV_8U);
-  cv::Mat quarter4(129,142, CV_8U);
-  cv::Mat aux(258,285, CV_8U);
+  cv::Mat quarter1(128,128, CV_8U);
+  cv::Mat quarter2(128,128, CV_8U);
+  cv::Mat quarter3(128,128, CV_8U);
+  cv::Mat quarter4(128,128, CV_8U);
+  cv::Mat aux(256,256, CV_8U);
   cv::Vec3b val;
 
   image= cv::imread("biel.png",cv::IMREAD_GRAYSCALE);
@@ -68,11 +69,11 @@ int main(int, char**){
     }
   }
    cout << "Até aqui ok!"<< endl;
-  /*for(int i=0;i<image.size().width/2;i++){
+  for(int i=0;i<image.size().width/2;i++){
     for(int j=0;j<image.size().height/2;j++){
       aux.at<uchar>(i+image.size().height/2,j+image.size().width/2)=quarter4.at<uchar>(i,j);
     }
-  }*/
+  }
 
   cv::imshow("Trocado", aux);  
   cv::waitKey();
