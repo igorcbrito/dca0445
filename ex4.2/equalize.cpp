@@ -1,17 +1,19 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 
 int main(int argc, char** argv){
-  cv::Mat image, realce;
+  cv::Mat image, imageGrayscale, realce;
   int width, height;
   cv::VideoCapture cap;
   std::vector<cv::Mat> planes, output;
   cv::Mat histR, histG, histB;
   int nbins = 64;
-  float range[] = {0, 255};
-  const float *histrange = { range };
-  bool uniform = true;
-  bool acummulate = false;
+ // float range[] = {0, 255};
+ // const float *histrange = { range };
+ // bool uniform = true;
+ // bool acummulate = false;
   int key;
 
 	cap.open(0);
@@ -37,54 +39,11 @@ int main(int argc, char** argv){
   while(1){
     cap >> image;
 
-    cv::split (image, planes);
-    cv::calcHist(&planes[0], 1, 0, cv::Mat(), histR, 1,
-                 &nbins, &histrange,
-                 uniform, acummulate);
-    cv::calcHist(&planes[1], 1, 0, cv::Mat(), histG, 1,
-                 &nbins, &histrange,
-                 uniform, acummulate);
-    cv::calcHist(&planes[2], 1, 0, cv::Mat(), histB, 1,
-                 &nbins, &histrange,
-                 uniform, acummulate);
-    
-    cv::normalize(histR, histR, 0, histImgR.rows, cv::NORM_MINMAX, -1, cv::Mat());
-    cv::normalize(histG, histG, 0, histImgG.rows, cv::NORM_MINMAX, -1, cv::Mat());
-    cv::normalize(histB, histB, 0, histImgB.rows, cv::NORM_MINMAX, -1, cv::Mat());
-
-    cv::equalizeHist(planes[0], planes[0]);
-    cv::equalizeHist(planes[1], planes[1]);
-    cv::equalizeHist(planes[2], planes[2]);
-
-    merge(planes, realce);
-
-    histImgR.setTo(cv::Scalar(0));
-    histImgG.setTo(cv::Scalar(0));
-    histImgB.setTo(cv::Scalar(0));
-    
-    for(int i=0; i<nbins; i++){
-      cv::line(histImgR,
-               cv::Point(i, histh),
-               cv::Point(i, histh-cvRound(histR.at<float>(i))),
-               cv::Scalar(0, 0, 255), 1, 8, 0);
-      cv::line(histImgG,
-               cv::Point(i, histh),
-               cv::Point(i, histh-cvRound(histG.at<float>(i))),
-               cv::Scalar(0, 255, 0), 1, 8, 0);
-      cv::line(histImgB,
-               cv::Point(i, histh),
-               cv::Point(i, histh-cvRound(histB.at<float>(i))),
-               cv::Scalar(255, 0, 0), 1, 8, 0);
-               
-    }
-    
-    histImgR.copyTo(realce(cv::Rect(0, 0       ,nbins, histh)));
-    histImgG.copyTo(realce(cv::Rect(0, histh   ,nbins, histh)));
-    histImgB.copyTo(realce(cv::Rect(0, 2*histh ,nbins, histh)));
-
-    
-    
-    cv::imshow("Ao vivo", realce);
+    cvtColor(image, imageGrayscale, cv::COLOR_RGB2GRAY, 0);
+    cv::equalizeHist(imageGrayscale, imageGrayscale);
+    std::cout << "RAPARIGA" << std::endl;
+ 
+    cv::imshow("Ao vivo", imageGrayscale);
     key = cv::waitKey(30);
     if(key == 27) break;
   }
