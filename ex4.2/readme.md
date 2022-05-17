@@ -2,7 +2,7 @@
 
 Neste exercício, foi proposto a realização de uma equalização em um vídeo capturado pela webcam do computador em tempo real, considerando o processamento das imagens em tons de cinza.
 
-Sendo assim, após a captura das imagens pela webcam, foi feito uma conversão de cores da fonte de imagem para uma escala de tons de cinza utilizando a função cvtColor(image, imageGrayscale, cv::COLOR_RGB2GRAY, 0); do opencv que transforma o padrão de cores da imagem para uma escala de tons de cinza e copia para uma outra matriz.
+Sendo assim, foi tomado como base o código presente no arquivo histogram.cpp e após a captura das imagens pela webcam, foi feito uma conversão de cores da fonte de imagem para uma escala de tons de cinza utilizando a função cvtColor(image, imageGrayscale, cv::COLOR_RGB2GRAY, 0); do opencv que transforma o padrão de cores da imagem para uma escala de tons de cinza e copia para uma outra matriz.
 
 Logo em seguida, foi utilizada a função equalizeHist(imageGrayscale, imageGrayscale); que realiza a equalização do histograma da imagem.   
 Vale salientar que todo o processamento feito nas imagens ocorreu quadro a quadro do vídeo.
