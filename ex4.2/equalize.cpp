@@ -10,10 +10,6 @@ int main(int argc, char** argv){
   std::vector<cv::Mat> planes, output;
   cv::Mat histR, histG, histB;
   int nbins = 64;
- // float range[] = {0, 255};
- // const float *histrange = { range };
- // bool uniform = true;
- // bool acummulate = false;
   int key;
 
 	cap.open(0);
