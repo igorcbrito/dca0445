@@ -61,7 +61,7 @@ int main(int argc, char** argv){
 		  cv::floodFill(image,p,0);
     }  
   }
-
+cv::imwrite("labeling-edges.png", image);
   // pinta as bolhas de cinza(contando)
   nobjects=0;
   for(int i=0; i<height; i++){
@@ -90,7 +90,6 @@ int main(int argc, char** argv){
   for(int i=0; i<height; i++){
     for(int j=0; j<width; j++){
       if((int)image.at<uchar>(i,j) == 0 && (int)image.at<uchar>(i,j-1) != 255){
-        std::cout << "PASSOU"; 
         bolhas++;
         p.x=j;
         p.y=i;
@@ -115,7 +114,7 @@ int main(int argc, char** argv){
   cv::imshow("image", image);
   cv::imshow("realce", realce);
   cv::imwrite("labeling.png", image);
-  cv::imwrite("labeling-edges.png", realce);
+  //cv::imwrite("labeling-edges.png", realce);
   cv::waitKey();
   return 0;
 }

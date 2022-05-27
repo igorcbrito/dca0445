@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content=S"width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Página pessoal - Igor Brito</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/resume.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+      <span class="d-block d-lg-none">Igor Brito</span>
+      <span class="d-none d-lg-block">
+        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.jpg" alt="">
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#dca0445">DCA0445</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid p-0">
+
+    <hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="dca0445">
+      <div class="w-100">
+        <h2 class="mb-5">DCA0445 - Igor Brito e Micael Balza</h2>  
+
+         <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="resume-content">
+            <h3 class="mb-0">Exercício 2.2.1 </h3>
+            <p>O objetivo deste exercício consiste em pegar dois pontos inseridos pelo usuário, desde que sejam dentro das dimensões da imagem selecionada, e com base nesses dois pontos formar uma área retangular com tons invertidos (negativo). Para construir o programa, foi utilizado como base o código pixels.cpp cedido pelo professor.
+
+              Inicialmente, foi utilizado uma estrutura de dado de par para representar os pontos P1 e P2 e também suas coordenadas. Após lidas as posições x e y de cada um dos pontos, foi criada uma validação para que se garanta que o programa não funcione com pontos inválidos, como valores negativos e também coordenadas que estejam fora da figura escolhida.
+              
+              Para criar a área negativa, bastou-se alterar o preenchecimento dos pixels dentro da área demarcada pelos pontos P1 e P2 por seus valores multiplicados por -1.</p>
+          </div>
+        </div>
+        
+
+
+       <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+        <div class="resume-content">
+          <h3 class="mb-0">Exercício 2.2.1 </h3>
+          <p>O objetivo deste exercício consiste em pegar dois pontos inseridos pelo usuário, desde que sejam dentro das dimensões da imagem selecionada, e com base nesses dois pontos formar uma área retangular com tons invertidos (negativo). Para construir o programa, foi utilizado como base o código pixels.cpp cedido pelo professor.
+
+            Inicialmente, foi utilizado uma estrutura de dado de par para representar os pontos P1 e P2 e também suas coordenadas. Após lidas as posições x e y de cada um dos pontos, foi criada uma validação para que se garanta que o programa não funcione com pontos inválidos, como valores negativos e também coordenadas que estejam fora da figura escolhida.
+            
+            Para criar a área negativa, bastou-se alterar o preenchecimento dos pixels dentro da área demarcada pelos pontos P1 e P2 por seus valores multiplicados por -1.</p>
+        </div>
+      </div>
+
+      <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+        <div class="resume-content">
+          <h3 class="mb-0">Exercício 3.2.1</h3>
+          <p>Caso existam mais de 255 objetos na cena, o processo de rotulação estará comprometido devido ao uso do tipo de dado como uchar, esse tipo é um char sem sinal, que representa com 8 bits valores de 0 a 255. Como a rotulação usa a representação de cor(tons de cinza) como ferramenta para distinguir os objetos na cena, caso o número seja maior que 255 não se pode garantir a correta rotulação.
+              Uma forma de resolver este problema é mudar o tipo de dado usado para representar a cor, se por exemplo utilizarmos um unsigned int de 32 bits que representa valores de 0 a 65.535, aumentamos significativamente a capacidade de rotular mais objetos na imagem.</p>
+        </div>
+      </div>
+
+      <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+        <div class="resume-content">
+          <h3 class="mb-0">Exercício 3.2.2</h3>
+          <p>Podemos dividir a resolução desse problema em 3 partes principais:<br>
+		&#x2192; Remoção das bolhas que tocam nas bordas<br>
+		&#x2192; Rotulação das bolhas<br>
+		&#x2192; Contagem de buracos<br> </p>
+		A imagem é composta por um fundo preto representado pelo valor 0, e bolhas brancas representadas pelo valor 255.<br><br>
+		O trecho abaixo foi usado para percorrer as bordas da imagem, fixando o X e percorrendo o Y, varremos a borda direita e esquerda da imagem. A mesma lógica é seguida para percorrer as bordas superior e inferior, só que desta vez fixando o Y e percorrendo o X. Ao varrer as bordas da imagem e encontrando valores iguais a 255, encontramos uma bolha e que ela se encontra na borda, para apagar foi chamado a função <code>floodFill</code> pintando a cor de fundo.
+			<pre><code> 
+			  // excluir objetos das bordas
+			  // percorrer as bordas e execultar o floodfill, quando achar uma bolha que esta na bordar colorir com o fundo
+			  nobjects=0;
+			  for(int i=0; i<height; i++){ // percorrendo as linhas ( o y) 
+			    if(image.at<uchar>(i,0) == 255){
+				// achou um objeto
+				p.x=0;
+				p.y=i;
+			  		// preenche o objeto com a cor de fundo
+					  cv::floodFill(image,p,0);
+			    } 
+			    if(image.at<uchar>(i,height-1) == 255){
+				// achou um objeto
+				p.x=height-1;
+				p.y=i;
+			  		// preenche o objeto com a cor de fundo
+					  cv::floodFill(image,p,0);
+			    }  
+			  } 
+			  for(int j=0; j<width; j++){
+			    if(image.at<uchar>(0,j) == 255){
+				// achou um objeto
+				p.x=j;
+				p.y=0;
+			  		// preenche o objeto com a cor de fundo
+					  cv::floodFill(image,p,0);
+			    }
+			    if(image.at<uchar>(width-1,j) == 255){
+				// achou um objeto
+				p.x=j;
+				p.y=width-1;
+			  		// preenche o objeto com a cor de fundo
+					  cv::floodFill(image,p,0);
+			    }  
+			  }
+			</code>
+			</pre>	
+        </div>
+      </div>
+
+      <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+        <div class="resume-content">
+          <h3 class="mb-0">Exercício 4.2.1</h3>
+          <p>Neste exercício, foi proposto a realização de uma equalização em um vídeo capturado pela webcam do computador em tempo real, considerando o processamento das imagens em tons de cinza.
+
+            Sendo assim, foi tomado como base o código presente no arquivo histogram.cpp e após a captura das imagens pela webcam, foi feito uma conversão de cores da fonte de imagem para uma escala de tons de cinza utilizando a função cvtColor(image, imageGrayscale, cv::COLOR_RGB2GRAY, 0); do opencv.
+            
+            Logo em seguida, foi utilizada a função equalizeHist(imageGrayscale, imageGrayscale); que realiza a equalização do histograma da imagem.
+            Vale salientar que todo o processamento feito nas imagens ocorreu quadro a quadro do vídeo.
+            
+            Como resultado, nota-se um aumento no contraste da imagem, mas que em algumas situações causa o efeito de falso contorno, como na imagem abaixo.
+            
+            Repare, que durante a transição de uma cena escura para uma clara, é produzido um contorno no fundo da imagem que não existe, de fato.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <hr class="m-0">
+
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/resume.min.js"></script>
+
+</body>
+
+</html>
+
