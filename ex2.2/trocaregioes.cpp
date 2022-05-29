@@ -76,6 +76,7 @@ int main(int, char**){
   }
 
   cv::imshow("Trocado", aux);  
+  cv::imwrite("Trocado.png", aux);
   cv::waitKey();
   return 0;
 }
