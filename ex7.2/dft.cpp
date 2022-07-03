@@ -8,10 +8,19 @@ void on_trackbar_frequency(int, void*) {}
 
 void on_trackbar_noise_gain(int, void*) {}
 
+void on_trackbar_yl(int, void*) {}
+
+void on_trackbar_yh(int, void*) {}
+
+void on_trackbar_c(int, void*) {}
+
+void on_trackbar_d0(int, void*) {}
+
 void menu() {
   std::cout << "e : habilita/desabilita interferencia\n"
                "m : habilita/desabilita o filtro mediano\n"
                "g : habilita/desabilita o filtro gaussiano\n"
+               "h : habilita/desabilita o filtro homomórfico\n"
                "p : realiza uma amostra das imagens\n"
                "s : habilita/desabilita subtração de fundo\n"
                "b : realiza uma amostra do fundo da cena\n"
@@ -47,11 +56,10 @@ void deslocaDFT(cv::Mat& image) {
   tmp.copyTo(B);
 }
 
-int main(int, char**) {
-  cv::VideoCapture cap;
+int main(int argc, char** argv) {
   cv::Mat imaginaryInput, complexImage, multsp;
   cv::Mat padded, filter, mag;
-  cv::Mat image, imagegray, tmp, magI;
+  cv::Mat image, tmp, magI;
   cv::Mat_<float> realInput, zeros, ones;
   cv::Mat backgroundImage;
   std::vector<cv::Mat> planos;
@@ -65,12 +73,17 @@ int main(int, char**) {
   int gain_int = 0;
   int gain_max = 100;
   float gain = 0;
+  //parametros homomorfico
+  int yh = 0, yh_max = 100;
+  int yl = 0, yl_max = 100;
+  int c = 0, c_max = 100;
+  int d0 = 0, d0_max = 100;
 
-  // habilita filtro da mediana
+  //habilita filtro da mediana
   bool median = false;
-  // habilita o filtro gaussiano
+  //habilita o filtro gaussiano
   bool gaussian = false;
-  // habilita o negativo da imagem
+  //habilita o negativo da imagem
   bool negative = false;
 
   // realiza amostragem da imagem
@@ -92,23 +105,15 @@ int main(int, char**) {
   // para calculo da DFT
   int dft_M, dft_N;
 
-  //  char TrackbarRadiusName[50];
-  //  std::strcpy(TrackbarFrequencyName, "Raio");
+/*   char TrackbarRadiusName[50];
+  std::strcpy(TrackbarFrequencyName, "Raio"); */
 
   // abre a câmera
-  cap.open(0);
+  image = cv::imread(argv[1],cv::IMREAD_GRAYSCALE);
+  cv::imshow("image", image);
 
   // apresenta as opcoes de interacao
   menu();
-
-  cap.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-  cap.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
-
-  if (!cap.isOpened()) return -1;
-
-  // captura uma imagem para recuperar as
-  // informacoes de gravação
-  cap >> image;
 
   // identifica os tamanhos otimos para
   // calculo do FFT
@@ -127,14 +132,36 @@ int main(int, char**) {
 
   on_trackbar_noise_gain(gain_int, 0);
 
+  //homomorfico
+
+  cv::createTrackbar("yl", "original", &yl, yl_max,
+                     on_trackbar_yl);
+
+  on_trackbar_yl(yl, 0);
+
+  cv::createTrackbar("yh", "original", &yh, yh_max,
+                     on_trackbar_yh);
+
+  on_trackbar_yh(yh, 0);
+
+  cv::createTrackbar("c", "original", &c, c_max,
+                     on_trackbar_c);
+
+  on_trackbar_c(c, 0);
+
+  cv::createTrackbar("d0", "original", &d0, d0_max,
+                     on_trackbar_d0);
+
+  on_trackbar_yh(d0, 0);
+
   // realiza o padding da imagem
   cv::copyMakeBorder(image, padded, 0, dft_M - image.rows, 0,
                      dft_N - image.cols, cv::BORDER_CONSTANT,
                      cv::Scalar::all(0));
-
   // parte imaginaria da matriz complexa (preenchida com zeros)
   zeros = cv::Mat_<float>::zeros(padded.size());
   ones = cv::Mat_<float>::zeros(padded.size());
+
 
   // prepara a matriz complexa para ser preenchida
   complexImage = cv::Mat(padded.size(), CV_32FC2, cv::Scalar(0));
@@ -145,7 +172,7 @@ int main(int, char**) {
 
   // cria uma matriz temporária para criar as componentes real
   // e imaginaria do filtro ideal
-  tmp = cv::Mat(dft_M, dft_N, CV_32F);
+/*   tmp = cv::Mat(dft_M, dft_N, CV_32F);
 
   // prepara o filtro passa-baixas ideal
   for (int i = 0; i < dft_M; i++) {
@@ -157,39 +184,35 @@ int main(int, char**) {
       }
     }
   }
-
+ */
   // cria a matriz com as componentes do filtro e junta
   // ambas em uma matriz multicanal complexa
-  cv::Mat comps[] = {tmp, tmp};
+  /* cv::Mat comps[] = {tmp, tmp};
   cv::merge(comps, 2, filter);
-
+ */
   for (;;) {
-    cap >> image;
-    cv::cvtColor(image, imagegray, cv::COLOR_BGR2GRAY);
     if (background == true) {
-      imagegray.copyTo(backgroundImage);
+      image.copyTo(backgroundImage);
       background = false;
     }
-
     if (subtract) {
-      imagegray = cv::max(imagegray - backgroundImage, cv::Scalar(0));
+      //image = cv::max(image - backgroundImage, cv::Scalar(0));
     }
-
     if (negative) {
-      bitwise_not(imagegray, imagegray);
+      //bitwise_not(image, image);
     }
     if (median) {
-      cv::medianBlur(imagegray, image, 3);
-      image.copyTo(imagegray);
+      //cv::medianBlur(image, image, 3);
+      image.copyTo(image);
     }
     if (gaussian) {
-      cv::GaussianBlur(imagegray, image, cv::Size(3, 3), 0);
-      image.copyTo(imagegray);
+      //cv::GaussianBlur(image, image, cv::Size(3, 3), 0);
+      image.copyTo(image);
     }
-    cv::imshow("original", imagegray);
+    cv::imshow("original", image);
 
     // realiza o padding da imagem
-    cv::copyMakeBorder(imagegray, padded, 0, dft_M - image.rows, 0,
+    cv::copyMakeBorder(image, padded, 0, dft_M - image.rows, 0,
                        dft_N - image.cols, cv::BORDER_CONSTANT,
                        cv::Scalar::all(0));
 
@@ -210,6 +233,20 @@ int main(int, char**) {
     cv::dft(complexImage, complexImage);
     // realiza a troca de quadrantes
     deslocaDFT(complexImage);
+
+     tmp = cv::Mat(dft_M, dft_N, CV_32F);
+
+    // filtro homomorfico
+    for(int i=0; i < tmp.rows; i++){
+        for(int j=0; j < tmp.cols; j++){
+            float d2 = (i-dft_M/2)*(i-dft_M/2)+(j-dft_N/2)*(j-dft_N/2);
+            tmp.at<float> (i,j) = (yh-yl)*(1.0 - (float)exp(-(c*d2/(d0*d0)))) + yl;
+        }
+    }
+
+  cv::Mat comps[] = {tmp, tmp};
+  cv::merge(comps, 2, filter);
+
 
     // exibe o espectro e angulo de fase
     // armazena amostra das imagens
@@ -288,8 +325,8 @@ int main(int, char**) {
     // normaliza a parte real para exibicao
     cv::normalize(planos[0], planos[0], 0, 1, cv::NORM_MINMAX);
     cv::imshow("filtrada", planos[0]);
-
-    key = (char)cv::waitKey(10);
+ 
+  key = (char)cv::waitKey(10);
     if (key == 27) break;  // esc pressed!
     switch (key) {
       case 'e':
