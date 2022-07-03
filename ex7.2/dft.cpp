@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
   // habilita/desabilita ruido
   bool noise = true;
   // frequencia do ruido
-  int freq = 10;
+  int freq = 0;
   int freq_max;
   // ganho do ruido
   int gain_int = 0;
@@ -121,7 +121,7 @@ int main(int argc, char** argv) {
   dft_N = cv::getOptimalDFTSize(image.cols);
 
   freq_max = dft_M / 2 - 1;
-  cv::namedWindow("original", 1);
+  cv::namedWindow("filtrada", 1);
   cv::createTrackbar("frequencia", "original", &freq, freq_max,
                      on_trackbar_frequency);
 
@@ -134,22 +134,22 @@ int main(int argc, char** argv) {
 
   //homomorfico
 
-  cv::createTrackbar("yl", "original", &yl, yl_max,
+  cv::createTrackbar("yl", "filtrada", &yl, yl_max,
                      on_trackbar_yl);
 
   on_trackbar_yl(yl, 0);
 
-  cv::createTrackbar("yh", "original", &yh, yh_max,
+  cv::createTrackbar("yh", "filtrada", &yh, yh_max,
                      on_trackbar_yh);
 
   on_trackbar_yh(yh, 0);
 
-  cv::createTrackbar("c", "original", &c, c_max,
+  cv::createTrackbar("c", "filtrada", &c, c_max,
                      on_trackbar_c);
 
   on_trackbar_c(c, 0);
 
-  cv::createTrackbar("d0", "original", &d0, d0_max,
+  cv::createTrackbar("d0", "filtrada", &d0, d0_max,
                      on_trackbar_d0);
 
   on_trackbar_yh(d0, 0);
@@ -209,7 +209,7 @@ int main(int argc, char** argv) {
       //cv::GaussianBlur(image, image, cv::Size(3, 3), 0);
       image.copyTo(image);
     }
-    cv::imshow("original", image);
+    cv::imshow("filtrada", image);
 
     // realiza o padding da imagem
     cv::copyMakeBorder(image, padded, 0, dft_M - image.rows, 0,
